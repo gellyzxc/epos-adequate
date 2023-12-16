@@ -68,13 +68,15 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1'], function () {
                 Route::post('/{schoolClass}/{pupil}/{schoolSubject}', [MarkController::class, 'createMark']);
             });
 
-            Route::post('profile', [TeacherController::class, 'createProfile']);
+            Route::post('{school}/profile', [TeacherController::class, 'createProfile']);
             Route::delete('profile/{profile}', [TeacherController::class, 'deleteProfile']);
-            Route::get('profile', [TeacherController::class, 'getProflies']);
+            Route::get('{school}/profile', [TeacherController::class, 'getProfiles']);
 
             Route::group(['prefix' => 'leader'], function () {
                 Route::get('acceptJoinRequest/{request_id}', [TeacherController::class, 'leaderAccept']);
                 Route::get('denyJoinRequest/{request_id}', [TeacherController::class, 'leaderDeny']);
+
+                Route::get('{school}/myClass', [TeacherController::class, 'myClass']);
 
                 Route::group(['prefix' => 'mark'], function () {
                     // Route::get('{class}', []);
@@ -85,8 +87,10 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1'], function () {
         });
 
         Route::group(['prefix' => 'local_admin'], function () {
+            Route::get('{school}/{teacher}', [LocalAdminController::class, 'addNewLocalAdmin']);
             Route::get('{school}/teachers', [LocalAdminController::class, 'getTeachers']);
             Route::post('{school}/teacher/{token}', [LocalAdminController::class, 'addNewTeacher']);
+            Route::post('{school}/teacher/{schoolTeacher}/leader/{schoolClass}', [LocalAdminController::class, 'makeLeader']);
             // Route::get('{school}/{schoolClass}/pupils', []);
             // Route::get('{school}/{schoolClass}/pupils/{pupil}', []);
 

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('school')->constrained('schools');
             $table->foreignUuid('teacher')->constrained('users');
-            $table->foreignUuid('leader')->constrained('school_classes')->nullable();
+            $table->foreignUuid('leader')->nullable()->constrained('school_classes');
             $table->timestamps();
         });
     }

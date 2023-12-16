@@ -4,19 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProfileRequest;
 use App\Models\ClassPupil;
+use App\Models\LeaderClass;
 use App\Models\ProfileTeacher;
 use App\Models\PupilUser;
+use App\Models\School;
 use App\Models\SchoolSubject;
+use App\Models\SchoolTeacher;
 use App\Models\VerificationToken;
 use Auth;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
-    public function createProfile(CreateProfileRequest $request) {
+    public function createProfile(CreateProfileRequest $request, School $school)
+    {
 
         $subject = SchoolSubject::create([
-            'school' => '',
+            'school' => $school->id,
             'name' => $request->subjectName,
         ]);
 
@@ -28,17 +32,26 @@ class TeacherController extends Controller
         return response()->json($profile);
     }
 
-    public function deleteProfile(ProfileTeacher $profileTeacher) {
+    public function deleteProfile(ProfileTeacher $profileTeacher)
+    {
         //
     }
 
-    public function getProfiles() {
+    public function getProfiles()
+    {
         $profiles = ProfileTeacher::where('teacher', Auth::id())->get();
 
-        return response()->json($profiles);
+        $result = [];
+
+        foreach ($profiles as $profile) {
+            $result[] = $profile->subjectRelation;
+        }
+
+        return response()->json($result);
     }
 
-    public function leaderAccept($token) {
+    public function leaderAccept($token)
+    {
         $classRequest = VerificationToken::where('token', $token)->first();
 
         $pupilUser = PupilUser::create([
@@ -54,8 +67,23 @@ class TeacherController extends Controller
         return response()->json($class);
     }
 
-    public function leaderDeny($token) {
+    public function leaderDeny($token)
+    {
         $classRequest = VerificationToken::where('token', $token)->first()->delete();
         return response()->json(['message' => 'ok']);
+    }
+
+    public function myClass(School $school) {
+        $schoolTeacher = SchoolTeacher::where('teacher', Auth::id())->where('school', $school->id)->first();
+        $classes = LeaderClass::where('teacher', $schoolTeacher->id)->get();
+        // dd(LeaderClass::all());
+
+        $result = [];
+
+        foreach ($classes as $class) {
+            $result[] = $class->myClass;
+        }
+
+        return response()->json($result);
     }
 }

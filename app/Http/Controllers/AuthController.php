@@ -27,6 +27,10 @@ class AuthController extends Controller
 
     public function register(Request $request) {
 
+        if (in_array($request->role, ['system_admin', 'local_admin'])) {
+            return response()->json(['message' => 'Регистрация доступна только для пользователей с типами: ["teacher", "pupil", "parent"]']);
+        }
+
         $user = new User();
 
         $user->first_name = $request->first_name;

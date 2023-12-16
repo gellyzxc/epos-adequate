@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LocalAdminSchool extends Model
+class LeaderClass extends Model
 {
     use HasFactory, HasUuids;
 
@@ -15,7 +15,11 @@ class LocalAdminSchool extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'school',
-        'user',
+        'class',
+        'teacher'
     ];
+
+    public function myClass() {
+        return $this->belongsTo(SchoolClass::class, 'class', 'id');
+    }
 }
