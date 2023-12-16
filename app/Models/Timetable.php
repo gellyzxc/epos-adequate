@@ -9,6 +9,8 @@ class Timetable extends Model
 {
     use HasFactory;
 
+    protected $table = 'timetable';
+
     public $fillable = [
         'week', 'class', 'lessons', 'year'
     ];

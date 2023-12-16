@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreMarkRequest;
+use App\Http\Requests\UpdateMarksRequest;
 use App\Models\Mark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +15,7 @@ class MarksController extends Controller
      */
     public function index()
     {
-        $data = Auth::user()->marks;
+        $data = Auth::user()->profile->marks->with('lessonRel');
 
         return response()->json($data);
     }
@@ -21,25 +23,23 @@ class MarksController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMarkRequest $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Mark $mark)
-    {
-        //
+        $mark = Mark::create($request->validated());
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Mark $mark)
+    public function update(UpdateMarksRequest $request, Mark $mark)
     {
-        //
+        foreach ($request->validated() as $param => $value) {
+            $mark->{$param} = $value;
+        }
+
+        $mark->save();
+
+        return response()->json($mark);
     }
 
     /**
@@ -47,6 +47,6 @@ class MarksController extends Controller
      */
     public function destroy(Mark $mark)
     {
-        //
+        $mark->delete();
     }
 }

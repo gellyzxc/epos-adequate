@@ -23,7 +23,7 @@ class TimetableController extends Controller
 
     public function index()
     {
-        $data = Timetable::all()->paginate(4);
+        $data = Timetable::paginate(4);
         return response()->json($data);
     }
 
@@ -42,15 +42,20 @@ class TimetableController extends Controller
             ]);
         }
 
-        return response()->json($timetable->with('dayTimetable'));
+        return response()->json($timetable->load('dayTimetable'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Timetable $timetable)
+    public function show(SchoolClass $schoolClass, string $timetable)
     {
-        $data = $timetable->with('dayTimetable.lessons');
+        if ($timetable == 'latest') {
+            $timetable = Timetable::where('class', $schoolClass->id)->orderBy('created_at', 'DESC')->first();
+        } else {
+            $timetable = Timetable::find($timetable);
+        }
+        $data = $timetable->load('dayTimetable.lessons');
 
         return response()->json($data);
     }

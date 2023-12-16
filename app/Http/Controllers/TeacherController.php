@@ -110,6 +110,6 @@ class TeacherController extends Controller
         $class = LeaderClass::where('teacher', $schoolTeacher->id)->where('class', $schoolClass->id)->first();
         // dd($class);
 
-        return response()->json($class->with('schoolClass.pupils')->get());
+        return response()->json($class->load('schoolClass.pupils'));
     }
 }
