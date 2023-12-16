@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('marks', function (Blueprint $table) {
-            $table->id('id');
-            $table->foreignUuid('user')->constrained('class_pupils');
-            $table->integer('mark')->nullable();
-            $table->boolean('present')->default(true);
-            $table->timestamps();
+        Schema::create('files', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->foreignUuid('homework')->constrained('homework');
+            $table->string('file_link');
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('marks');
+        Schema::dropIfExists('files');
     }
 };

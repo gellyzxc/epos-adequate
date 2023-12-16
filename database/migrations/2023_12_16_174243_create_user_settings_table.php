@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('marks', function (Blueprint $table) {
-            $table->id('id');
-            $table->foreignUuid('user')->constrained('class_pupils');
-            $table->integer('mark')->nullable();
-            $table->boolean('present')->default(true);
+        Schema::create('user_settings', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
         });
     }
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('marks');
+        Schema::dropIfExists('user_settings');
     }
 };

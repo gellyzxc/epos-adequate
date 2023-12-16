@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('middle_name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ['admin', 'teacher', 'pupil', 'parent']);
+            $table->enum('role', ['system_admin', 'local_admin', 'teacher', 'pupil', 'parent']);
             $table->timestamps();
         });
     }

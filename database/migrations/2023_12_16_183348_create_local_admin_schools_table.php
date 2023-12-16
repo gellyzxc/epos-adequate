@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('class_pupils', function (Blueprint $table) {
+        Schema::create('local_admin_schools', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('school_class')->constrained('school_classes');
+            $table->foreignUuid('school')->constrained('schools');
             $table->foreignUuid('user')->constrained('users');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('class_pupils');
+        Schema::dropIfExists('local_admin_schools');
     }
 };

@@ -5,13 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mark extends Model
+class LocalAdminSchool extends Model
 {
     use HasFactory;
-
-    protected $fillable = [
-        'user',
-        'mark',
-        'present',
-    ];
 }

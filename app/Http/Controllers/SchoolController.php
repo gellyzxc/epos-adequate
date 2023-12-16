@@ -25,7 +25,7 @@ class SchoolController extends Controller
     }
 
     public function show(School $school) {
-        return response()->json($school->with('classes')->get());
+        return response()->json(collect($school->with('classes')->get())->where('id', $school->id)->first());
     }
 
     public function update(UpdateSchoolRequest $request, School $school) {

@@ -33,4 +33,8 @@ class School extends Model
         return $this->hasMany(SchoolClass::class, 'school', 'id');
     }
 
+    public function teachers() {
+        return $this->hasMany(SchoolTeacher::class, 'school', 'id');
+    }
+
 }

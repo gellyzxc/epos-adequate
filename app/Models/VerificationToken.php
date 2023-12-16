@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mark extends Model
+class VerificationToken extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user',
-        'mark',
-        'present',
+        'token',
+        'revoked',
+        'type',
+        'class'
     ];
 }

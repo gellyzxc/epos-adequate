@@ -2,22 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PupilUser extends Model
+class SchoolClassSubject extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
+
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'user',
-        'school_class',
+        'class',
+        'subject',
     ];
 
-    public function marks() {
-        return $this->hasMany(Mark::class, 'user', 'id');
-    }
 }

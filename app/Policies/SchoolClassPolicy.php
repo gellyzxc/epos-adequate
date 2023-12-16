@@ -17,7 +17,7 @@ class SchoolClassPolicy
 
     public function viewAny(User $user): bool
     {
-        return in_array($user->role, ['admin', 'teacher']);
+        return in_array($user->role, ['system_admin', 'admin', 'teacher']);
     }
 
     /**
@@ -25,7 +25,7 @@ class SchoolClassPolicy
      */
     public function view(User $user, SchoolClass $school): bool
     {
-        return in_array($user->role, ['admin', 'teacher']);
+        return in_array($user->role, ['system_admin', 'admin', 'teacher']);
     }
 
     /**
@@ -33,7 +33,7 @@ class SchoolClassPolicy
      */
     public function create(User $user): bool
     {
-        return in_array($user->role, ['admin']);
+        return in_array($user->role, ['system_admin', 'admin']);
     }
 
     /**
@@ -41,7 +41,7 @@ class SchoolClassPolicy
      */
     public function update(User $user, SchoolClass $school): bool
     {
-        return in_array($user->role, ['admin']);
+        return in_array($user->role, ['system_admin', 'admin']);
     }
 
     /**
@@ -49,6 +49,6 @@ class SchoolClassPolicy
      */
     public function delete(User $user, SchoolClass $school): bool
     {
-        return in_array($user->role, ['admin']);
+        return in_array($user->role, ['system_admin', 'admin']);
     }
 }

@@ -36,16 +36,15 @@ class ClassController extends Controller
         return response()->json($classes);
     }
 
-    public function show(SchoolClass $schoolClass, School $school)
+    public function show(School $school, SchoolClass $schoolClass)
     {
         $classes = SchoolClass::where('school', $school->id)->where('id', $schoolClass->id)->first();
-        dd($schoolClass);
-        return response()->json($classes->with('pupils')->get());
+        // dd($classes);
+        return response()->json(collect($classes->with('pupils')->get())->where('id', $schoolClass->id)->first());
     }
 
     public function update(UpdateClassRequest $request, School $school, SchoolClass $schoolClass)
     {
-
 
         $school = School::create($request->validated());
 
@@ -54,9 +53,6 @@ class ClassController extends Controller
 
     public function destroy(School $school, SchoolClass $schoolClass)
     {
-
-        $this->authorize('delete');
-
         $class = SchoolClass::where(['school' => $school->id, 'id' => $schoolClass->id])->delete();
 
         return response()->json(['message' => 'deleted']);
