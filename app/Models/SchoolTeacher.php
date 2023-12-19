@@ -26,4 +26,8 @@ class SchoolTeacher extends Model
     public function leader() {
         return $this->hasMany(LeaderClass::class, 'teacher', 'id');
     }
+
+    public function profile() {
+        return $this->hasMany(ProfileTeacher::class, 'teacher', 'teacher');
+    }
 }
