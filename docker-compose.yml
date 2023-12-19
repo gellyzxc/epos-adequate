@@ -8,7 +8,7 @@ services:
         image: sail-8.2/app
         restart: unless-stopped
         ports:
-            - '${APP_PORT:-10000}:80'
+            - '81:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             WWWUSER: '${WWWUSER}'
