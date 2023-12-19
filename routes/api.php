@@ -6,6 +6,7 @@ use App\Http\Controllers\LocalAdminController;
 use App\Http\Controllers\MarkController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TimetableController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -87,17 +88,19 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1'], function () {
         });
 
         Route::group(['prefix' => 'local_admin'], function () {
-            Route::get('{school}/{teacher}', [LocalAdminController::class, 'addNewLocalAdmin']);
             Route::get('{school}/teachers', [LocalAdminController::class, 'getTeachers']);
+            Route::get('{school}/{teacher}', [LocalAdminController::class, 'addNewLocalAdmin']);
             Route::post('{school}/teacher/{token}', [LocalAdminController::class, 'addNewTeacher']);
             Route::post('{school}/teacher/{schoolTeacher}/leader/{schoolClass}', [LocalAdminController::class, 'makeLeader']);
             // Route::get('{school}/{schoolClass}/pupils', []);
             // Route::get('{school}/{schoolClass}/pupils/{pupil}', []);
 
             Route::group(['prefix' => 'timetable'], function () {
-                // Route::get('{school}', []);
-                // Route::post('{school}', []);
-                // Route::delete    ('{school}', []);
+                Route::get('{school}/week', function () {
+
+                });
+                Route::post('{school}/{schoolClass}', [TimetableController::class, 'createLesson']);
+
             });
 
         });

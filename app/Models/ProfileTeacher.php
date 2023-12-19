@@ -20,7 +20,7 @@ class ProfileTeacher extends Model
         'subject'
     ];
 
-    protected function subjectRelation() {
+    public function subjectInfo() {
         return $this->belongsTo(SchoolSubject::class, 'subject', 'id');
     }
 }
