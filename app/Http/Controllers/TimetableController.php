@@ -28,8 +28,6 @@ class TimetableController extends Controller
             'week' => $request->week,
         ]);
 
-        // meow
-
         return response()->json($lesson);
     }
 
