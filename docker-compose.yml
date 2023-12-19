@@ -7,8 +7,6 @@ services:
                 WWWGROUP: '${WWWGROUP}'
         image: sail-8.2/app
         restart: unless-stopped
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-10000}:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
