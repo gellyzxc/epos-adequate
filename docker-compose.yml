@@ -67,14 +67,6 @@ services:
                 - ping
             retries: 3
             timeout: 5s
-    adminer:
-        container_name: adminer
-        image: adminer:4.8.1
-        restart: unless-stopped
-        ports:
-            - 8080:8081
-        networks:
-            - sail
 
 networks:
     sail:
