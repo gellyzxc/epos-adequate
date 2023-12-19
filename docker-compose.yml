@@ -29,7 +29,7 @@ services:
         image: 'postgres:15'
         restart: unless-stopped
         ports:
-            - '${FORWARD_DB_PORT:-5432}:6556'
+            - '${FORWARD_DB_PORT:-5433}:5432'
         environment:
             PGPASSWORD: '${DB_PASSWORD:-secret}'
             POSTGRES_DB: '${DB_DATABASE}'
@@ -67,6 +67,14 @@ services:
                 - ping
             retries: 3
             timeout: 5s
+    adminer:
+        container_name: adminer
+        image: adminer:4.8.1
+        restart: unless-stopped
+        ports:
+            - 8081:8080
+        networks:
+            - sail
 
 networks:
     sail:
