@@ -18,6 +18,7 @@ class TimetableController extends Controller
     }
 
     public function createLesson(School $school, SchoolClass $schoolClass, CreateLessonRequest $request) {
+        // dd($request->all());
         $lesson = Lessons::create([
             'teacher' => $request->teacher,
             'subject' => $request->subject,

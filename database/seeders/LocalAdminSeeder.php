@@ -2,14 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\LocalAdminSchool;
 use App\Models\School;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
-
-class SchoolSeeder extends Seeder
+class LocalAdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,11 +17,9 @@ class SchoolSeeder extends Seeder
     {
         $faker = \Faker\Factory::create();
 
-        School::create([
-            'name' => $faker->company(),
-            'address' => $faker->address(),
-            'mark_max' => 10,
-            'data' => '{}'
+        LocalAdminSchool::create([
+            'school' => School::all()->random(1)->first()->id,
+            'user' => User::where('role', 'local_admin')->first()->id,
         ]);
     }
 }
