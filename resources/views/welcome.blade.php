@@ -1,1 +1,2 @@
-<h1>{{ Illuminate\Foundation\Application::VERSION }}</h1>
+<h1>laravel {{ Illuminate\Foundation\Application::VERSION }}</h1>
+<h3>gellyzxc. nothing here</h3>
