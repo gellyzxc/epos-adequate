@@ -8,6 +8,7 @@ use App\Models\LeaderClass;
 use App\Models\ProfileTeacher;
 use App\Models\PupilUser;
 use App\Models\School;
+use App\Models\SchoolClass;
 use App\Models\SchoolSubject;
 use App\Models\SchoolTeacher;
 use App\Models\VerificationToken;
@@ -37,14 +38,31 @@ class TeacherController extends Controller
         //
     }
 
+    public function newToken() {
+        $token = VerificationToken::where('user', Auth::id())->where('type', 'teacher_school_add')->first();
+
+        $notification = VerificationToken::create([
+            'user' => Auth::id(),
+            'token' => strtoupper(\Str::random(2)).str(mt_rand(10000000, 99999998)),
+            'type' => 'teacher_school_add',
+            'class' => null,
+        ]);
+
+        if ($token) {
+            $token->delete();
+        }
+
+        return response()->json($notification);
+
+    }
+
     public function getProfiles()
     {
         $profiles = ProfileTeacher::where('teacher', Auth::id())->get();
-
         $result = [];
 
         foreach ($profiles as $profile) {
-            $result[] = $profile->subjectRelation;
+            $result[] = $profile->subjectInfo;
         }
 
         return response()->json($result);
@@ -81,9 +99,17 @@ class TeacherController extends Controller
         $result = [];
 
         foreach ($classes as $class) {
-            $result[] = $class->myClass;
+            $result[] = $class->class;
         }
 
         return response()->json($result);
+    }
+
+    public function getPeoplesForMyClass(School $school, SchoolClass $schoolClass) {
+        $schoolTeacher = SchoolTeacher::where('teacher', Auth::id())->where('school', $school->id)->first();
+        $class = LeaderClass::where('teacher', $schoolTeacher->id)->where('class', $schoolClass->id)->first();
+        // dd($class);
+
+        return response()->json($class->with('class.pupils')->get());
     }
 }

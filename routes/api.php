@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1'], function () {
 
 
         Route::group(['prefix' => 'teacher'], function () {
-
+            Route::get('token/renew', [TeacherController::class, 'newToken']);
             Route::group(['prefix' => 'mark'], function () {
                 Route::get('/{schoolClass}', [MarkController::class, 'getMarks']);
                 Route::post('/{schoolClass}/{pupil}/{schoolSubject}', [MarkController::class, 'createMark']);
@@ -78,6 +78,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1'], function () {
                 Route::get('denyJoinRequest/{request_id}', [TeacherController::class, 'leaderDeny']);
 
                 Route::get('{school}/myClass', [TeacherController::class, 'myClass']);
+                Route::get('{school}/myClass/{schoolClass}', [TeacherController::class, 'getPeoplesForMyClass']);
 
                 Route::group(['prefix' => 'mark'], function () {
                     // Route::get('{class}', []);
@@ -96,9 +97,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'v1'], function () {
             // Route::get('{school}/{schoolClass}/pupils/{pupil}', []);
 
             Route::group(['prefix' => 'timetable'], function () {
-                Route::get('{school}/week', function () {
-
-                });
+                Route::get('{school}/week', [TimetableController::class, 'week']);
                 Route::post('{school}/{schoolClass}', [TimetableController::class, 'createLesson']);
 
             });

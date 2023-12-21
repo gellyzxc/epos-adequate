@@ -22,10 +22,9 @@ class CreateLessonRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'teacher' => 'required|exists:school_teachers,id',
+            'teacher' => 'required|exists:users,id',
             'subject' => 'required|exists:school_subjects,id',
-            'class' => 'required|exists:school_classes,id',
-            'day' => 'required|in_array:monday, tuesday, wednesday, thursday, friday, saturday',
+            'day' => 'required|in:monday,tuesday,wednesday,thursday,friday,saturday',
             'number' => 'required|integer',
             'minutes' => 'required|integer',
             'week' => 'required|integer',

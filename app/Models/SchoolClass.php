@@ -27,8 +27,12 @@ class SchoolClass extends Model
 
     protected $casts = [];
 
-    public function pupils()
-    {
-        return $this->hasMany(PupilUser::class, 'school_class', 'id');
+    // public function pupils()
+    // {
+    //     return $this->hasMany(PupilUser::class, 'school_class', 'id');
+    // }
+
+    public function pupils() {
+        return $this->hasManyThrough(User::class, PupilUser::class, 'school_class', 'id', 'id', 'user');
     }
 }

@@ -43,17 +43,20 @@ class LocalAdminController extends Controller
 
     }
 
-    public function makeLeader(School $school, SchoolTeacher $schoolTeacher, SchoolClass $schoolClass)
+    public function makeLeader(School $school, User $schoolTeacher, SchoolClass $schoolClass)
     {
-        $localAdmin = LocalAdminSchool::where('school', $school->id)->where('user', Auth::user()->id)->firstOrFail();
+        $localAdmin = LocalAdminSchool::where('school', $school->id)->where('user', Auth::user()->id)->first();
+        // dd($localAdmin);
 
-        if ($schoolTeacher->school !== $school->id) {
+        $teacher = SchoolTeacher::where('teacher', $schoolTeacher->id)->firstOrFail();
+
+        if ($teacher->school !== $school->id) {
             return response()->json(['message' => 'fail'], 403);
         }
 
         $leader = LeaderClass::create([
             'class' => $schoolClass->id,
-            'teacher' => $schoolTeacher->id
+            'teacher' => $teacher->id,
         ]);
 
         // dd($schoolClass);
