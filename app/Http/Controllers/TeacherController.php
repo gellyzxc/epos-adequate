@@ -39,7 +39,6 @@ class TeacherController extends Controller
     }
 
     public function newToken() {
-<<<<<<< Updated upstream
         $token = VerificationToken::where('user', Auth::id())->where('type', 'teacher_school_add')->first();
 
         $notification = VerificationToken::create([
@@ -55,9 +54,6 @@ class TeacherController extends Controller
 
         return response()->json($notification);
 
-=======
-        $token = VerificationToken::where('user', Auth::id())
->>>>>>> Stashed changes
     }
 
     public function getProfiles()
