@@ -6,6 +6,7 @@ use App\Models\LeaderClass;
 use App\Models\LocalAdminSchool;
 use App\Models\School;
 use App\Models\SchoolClass;
+use App\Models\SchoolClassTeacher;
 use App\Models\SchoolTeacher;
 use App\Models\User;
 use App\Models\VerificationToken;
@@ -78,5 +79,25 @@ class LocalAdminController extends Controller
 
         return response()->json($localAdmin);
 
+    }
+
+    public function assignTeacher(SchoolTeacher $schoolTeacher, SchoolClass $schoolClass) {
+        $teacherClass = SchoolClassTeacher::create([
+            'class' => $schoolClass->id,
+            'teacher' => $schoolTeacher->teacher,
+        ]);
+
+        return response()->json($teacherClass);
+    }
+
+    public function removeTeacher(SchoolClassTeacher $schoolClassTeacher) {
+        $schoolClassTeacher->delete();
+        return response()->json(['message' => 'ok']);
+    }
+
+    public function updateTeacher(SchoolClassTeacher $schoolClassTeacher, Request $request) {
+        $schoolClassTeacher->update($request->all());
+
+        return response()->json(SchoolClassTeacher::find($schoolClassTeacher->id));
     }
 }

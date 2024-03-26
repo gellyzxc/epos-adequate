@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('teacher')->constrained('school_teachers');
-            $table->foreignUuid('subject')->constrained('school_subjects');
+            $table->foreignUuid('teacher')->nullable()->constrained('school_teachers');
+            $table->foreignUuid('subject')->nullable()->constrained('school_subjects');
             $table->foreignUuid('class')->constrained('school_classes');
             $table->string('day');
             $table->integer('number');

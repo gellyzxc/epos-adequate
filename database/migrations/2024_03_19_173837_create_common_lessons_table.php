@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('common_lessons', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user')->constrained('users');
-            $table->boolean('read')->default(false);
-            $table->json('data');
-            $table->timestamps();
+            $table->integer('class');
+            // $table->string();
+            // $table->timestamps();
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('common_lessons');
     }
 };

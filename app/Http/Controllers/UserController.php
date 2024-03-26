@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mark;
 use App\Models\SchoolClass;
+use App\Models\SchoolTeacher;
 use App\Models\User;
 use App\Models\VerificationToken;
 use Illuminate\Http\Request;
@@ -34,6 +35,20 @@ class UserController extends Controller
     }
 
     public function getMarks() {
-        $marks = Mark::where('user');
+        $marks = Mark::where('user', Auth::id());
+    }
+
+    public function info() {
+        $user = Auth::user();
+
+        if ($user->role == 'teacher') {
+            return response()->json($user->load('teacherProfile.school'));
+        } elseif ($user->role == 'pupil') {
+            return response()->json($user->load('pupilProfile.schoolClass.school'));
+        } elseif ($user->role == 'parent') {
+            dd('xDDDD');
+        }
+
+        return response()->json($user);
     }
 }

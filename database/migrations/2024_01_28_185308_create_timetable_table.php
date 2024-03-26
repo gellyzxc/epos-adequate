@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('user')->constrained('users');
-            $table->boolean('read')->default(false);
-            $table->json('data');
+        Schema::create('timetable', function (Blueprint $table) {
+            $table->id();
+            $table->date('date');
+            $table->foreignUuid('class')->constrained('school_classes');
+            $table->json('lessons');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('timetable');
     }
 };

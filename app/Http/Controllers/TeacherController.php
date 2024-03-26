@@ -68,9 +68,9 @@ class TeacherController extends Controller
         return response()->json($result);
     }
 
-    public function leaderAccept($token)
+    public function leaderAccept($request_id)
     {
-        $classRequest = VerificationToken::where('token', $token)->first();
+        $classRequest = VerificationToken::where('token', $request_id)->first();
 
         $pupilUser = PupilUser::create([
             'user' => $classRequest->user,
@@ -85,9 +85,9 @@ class TeacherController extends Controller
         return response()->json($class);
     }
 
-    public function leaderDeny($token)
+    public function leaderDeny($request_id)
     {
-        $classRequest = VerificationToken::where('token', $token)->first()->delete();
+        $classRequest = VerificationToken::where('token', $request_id)->first()->delete();
         return response()->json(['message' => 'ok']);
     }
 
@@ -99,7 +99,7 @@ class TeacherController extends Controller
         $result = [];
 
         foreach ($classes as $class) {
-            $result[] = $class->class;
+            $result[] = $class->schoolClass;
         }
 
         return response()->json($result);
@@ -110,6 +110,6 @@ class TeacherController extends Controller
         $class = LeaderClass::where('teacher', $schoolTeacher->id)->where('class', $schoolClass->id)->first();
         // dd($class);
 
-        return response()->json($class->with('class.pupils')->get());
+        return response()->json($class->with('schoolClass.pupils')->get());
     }
 }

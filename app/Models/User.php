@@ -20,10 +20,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-     protected $table = 'users';
-     protected $primaryKey = 'id';
-     public $incrementing = false;
-     protected $keyType = 'string';
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
         'name',
         'password',
@@ -47,4 +47,16 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function teacherProfile() {
+        return $this->hasMany(SchoolTeacher::class, 'teacher', 'id');
+    }
+
+    public function pupilProfile() {
+        return $this->hasOne(PupilUser::class, 'user', 'id');
+
+    }
+
+    // public function parentProfile() {
+
+    // }
 }

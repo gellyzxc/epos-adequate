@@ -27,7 +27,7 @@ services:
         image: 'postgres:15'
         restart: unless-stopped
         ports:
-            - '${FORWARD_DB_PORT:-5433}:5432'
+            - '${FORWARD_DB_PORT:-5462}:5432'
         environment:
             PGPASSWORD: '${DB_PASSWORD:-secret}'
             POSTGRES_DB: '${DB_DATABASE}'

@@ -19,7 +19,7 @@ class LeaderClass extends Model
         'teacher'
     ];
 
-    public function class() {
+    public function schoolClass() {
         return $this->belongsTo(SchoolClass::class, 'class', 'id');
     }
 }

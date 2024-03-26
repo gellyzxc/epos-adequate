@@ -20,12 +20,8 @@ class Lessons extends Model
         'school',
         'class',
         'subject',
-        'day',
         'number',
         'type',
-        'minutes',
-        'week',
-        'year'
     ];
 
     public function classes() {
