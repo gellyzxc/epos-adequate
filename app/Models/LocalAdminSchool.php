@@ -18,4 +18,8 @@ class LocalAdminSchool extends Model
         'school',
         'user',
     ];
+
+    public function school() {
+        return $this->belongsTo(School::class, 'school', 'id');
+    }
 }

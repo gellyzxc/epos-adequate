@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LocalAdminSchool;
 use App\Models\Mark;
 use App\Models\SchoolClass;
 use App\Models\SchoolTeacher;
@@ -41,8 +42,11 @@ class UserController extends Controller
     public function info() {
         $user = Auth::user();
 
-        if ($user->role == 'teacher') {
-            return response()->json($user->load('teacherProfile.school'));
+        if ($user->role == 'teacher' or $user->role == 'local_admin') {
+
+            $localAdmin = LocalAdminSchool::where('user', $user->id)->get();
+
+            return response()->json([...$user->load('teacherProfile.school')->toArray(), 'local_admin_profile' => $localAdmin->load('school')]);
         } elseif ($user->role == 'pupil') {
             return response()->json($user->load('pupilProfile.schoolClass.school'));
         } elseif ($user->role == 'parent') {
