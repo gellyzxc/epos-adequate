@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Lessons extends Model
+class Lesson extends Model
 {
     use HasFactory, HasUuids;
 
@@ -17,14 +17,11 @@ class Lessons extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'school',
-        'class',
-        'subject',
+        'class_day_timetable_id',
+        'duration',
+        'teacher_profile_id',
         'number',
         'type',
+        'cabinet'
     ];
-
-    public function classes() {
-        return $this->hasOne(SchoolClass::class, 'class', 'id');
-    }
 }

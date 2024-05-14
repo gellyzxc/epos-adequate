@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\LessonsController;
 use App\Http\Controllers\LocalAdminController;
 use App\Http\Controllers\MarkController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TimetableController;
 use App\Http\Controllers\UserController;
+use App\Models\Timetable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,9 +57,9 @@ Route::group(['prefix' => 'v1'], function () {
                 Route::get('{school}', [SchoolController::class, 'show']);
             });
 
-            Route::group(['prefix' => 'mark'], function () {
-                Route::post('{schoolClass}/{lesson}/{pupil}', [MarkController::class, 'createMark']);
-            });
+
+            Route::post('timetable/test', [TimetableController::class, 'test']);
+            // Route::apiResource('timetable', TimetableController::class)->only(['index', 'show']);
         });
 
         Route::group(['prefix' => 'stuff'], function () {
@@ -67,13 +69,15 @@ Route::group(['prefix' => 'v1'], function () {
                 'class' => 'schoolClass'
             ]);
 
-
-
             Route::group(['prefix' => 'teacher'], function () {
+                Route::group(['prefix' => 'mark'], function () {
+                    Route::post('{schoolClass}/{lesson}/{pupil}', [MarkController::class, 'createMark']);
+                });
+
                 Route::get('token/renew', [TeacherController::class, 'newToken']);
                 Route::group(['prefix' => 'mark'], function () {
-                    Route::get('/{schoolClass}', [MarkController::class, 'getMarks']);
-                    Route::post('/{schoolClass}/{pupil}/{lesson}', [MarkController::class, 'createMark']);
+                    // Route::get('/{schoolClass}', [MarkController::class, 'getMarks']);
+                    // Route::post('/{schoolClass}/{pupil}/{lesson}', [MarkController::class, 'createMark']);
                 });
 
                 Route::post('{school}/profile', [TeacherController::class, 'createProfile']);
@@ -103,8 +107,10 @@ Route::group(['prefix' => 'v1'], function () {
                 // Route::get('{school}/{schoolClass}/pupils/{pupil}', []);
 
                 Route::group(['prefix' => 'timetable'], function () {
-                    Route::get('{school}/week', [TimetableController::class, 'week']);
-                    Route::post('{school}/{schoolClass}', [TimetableController::class, 'createLesson']);
+                    Route::post('/{schoolClass}', [TimetableController::class, 'store']);
+                    Route::get('/{timetable}', [TimetableController::class, 'show']);
+                    Route::post('/{schoolClass}/{classDayTimetable}/', [LessonsController::class, 'store']);
+
                 });
             });
         });

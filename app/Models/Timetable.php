@@ -10,10 +10,14 @@ class Timetable extends Model
     use HasFactory;
 
     public $fillable = [
-        'date', 'class', 'lessons'
+        'week', 'class', 'lessons', 'year'
     ];
 
     public $casts = [
         'lessons' => 'array'
     ];
+
+    public function dayTimetable() {
+        return $this->hasMany(ClassDayTimetable::class, 'timetable_id', 'id');
+    }
 }

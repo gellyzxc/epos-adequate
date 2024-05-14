@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('timetable', function (Blueprint $table) {
+        Schema::create('class_day_timetables', function (Blueprint $table) {
             $table->id();
-            $table->integer('week');
-            $table->integer('year');
+            $table->enum('day', ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun']);
+            $table->foreignId('timetable_id')->constrained('timetable');
             $table->foreignUuid('class')->constrained('school_classes');
             $table->timestamps();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('timetable');
+        Schema::dropIfExists('class_day_timetables');
     }
 };

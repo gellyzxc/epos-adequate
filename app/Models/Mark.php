@@ -13,5 +13,10 @@ class Mark extends Model
         'user',
         'mark',
         'present',
+        'lesson'
     ];
+
+    public function lessonRel() {
+        return $this->belongsTo(Lesson::class, 'lesson', 'id');
+    }
 }

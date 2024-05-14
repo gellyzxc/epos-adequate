@@ -11,15 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('timetable', function (Blueprint $table) {
-            // $table->foreignUuid('lesson')->constrained('lessons');
-        });
-
-        Schema::table('lessons', function (Blueprint $table) {
-            $table->dropColumn('day');
-            $table->dropColumn('week');
-            $table->dropColumn('year');
-            $table->dropColumn('class');
+        Schema::table('marks', function (Blueprint $table) {
+            $table->foreignId('lesson')->constrained('lessons');
         });
     }
 

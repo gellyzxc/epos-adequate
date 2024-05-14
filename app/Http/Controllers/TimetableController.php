@@ -2,48 +2,76 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateLessonRequest;
-use App\Models\Lessons;
-use App\Models\School;
+use App\Http\Requests\StoreTimetableRequest;
+use App\Models\ClassDayTimetable;
 use App\Models\SchoolClass;
 use App\Models\Timetable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class TimetableController extends Controller
 {
-    public static function week() {
+
+    public static function week()
+    {
         $date = new \DateTime();
         $week = $date->format("W");
         return $week;
     }
+    /**
+     * Display a listing of the resource.
+     */
 
-    public function createLesson(School $school, SchoolClass $schoolClass, CreateLessonRequest $request) {
-        // dd($request->all());
-        // $lesson = Lessons::create([
-        //     'teacher' => $request->teacher,
-        //     'subject' => $request->subject,
-        //     'class' => $schoolClass->id,
-        //     'day' => $request->day,
-        //     'number' => $request->number,
-        //     'minutes' => $request->minutes,
-        //     'week' => $request->week,
-        // ]);
-
-        // return response()->json($lesson);
+    public function index()
+    {
+        $data = Timetable::all()->paginate(4);
+        return response()->json($data);
     }
 
-    public function getLessons(School $school, SchoolClass $schoolClass, $week) {
-        // $lessons = Lessons::where('school', $school->id)->where('week', $week)->where('class', $schoolClass->id)->get();
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(SchoolClass $schoolClass, StoreTimetableRequest $request)
+    {
+        $timetable = Timetable::create($request->validated());
 
-        // return response()->json($lessons->with('classes'));
+        foreach ($request->days as $day) {
+            ClassDayTimetable::create([
+                'day' => $day,
+                'timetable_id' => $timetable->id,
+                'class' => $schoolClass->id
+            ]);
+        }
+
+        return response()->json($timetable->with('dayTimetable'));
     }
 
-    public function makeTimetable(Request $request, SchoolClass $schoolClass) {
-        $timetable = Timetable::create([
-            'date' => $request->date,
-            'class' => $schoolClass->id,
-            'lessons' => $schoolClass->lessons->toArray(),
-        ]);
+    /**
+     * Display the specified resource.
+     */
+    public function show(Timetable $timetable)
+    {
+        $data = $timetable->with('dayTimetable.lessons');
+
+        return response()->json($data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Timetable $timetable)
+    {
+        return response()->json([
+            'message' => 'operation not permitted'
+        ], 400);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Timetable $timetable)
+    {
+        return response()->json([
+            'message' => 'operation not permitted'
+        ], 400);
     }
 }

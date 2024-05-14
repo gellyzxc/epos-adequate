@@ -56,6 +56,10 @@ class User extends Authenticatable
 
     }
 
+    public function marks() {
+        return $this->hasMany(Mark::class, 'user', 'id');
+    }
+
     // public function parentProfile() {
 
     // }
