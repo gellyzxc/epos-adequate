@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateClassRequest;
 use App\Http\Requests\UpdateClassRequest;
+use App\Models\CalendarThemePlan;
+use App\Models\Lessons;
 use App\Models\School;
 use App\Models\SchoolClass;
 use Illuminate\Http\Request;
@@ -17,20 +19,26 @@ class ClassController extends Controller
 
     public function store(CreateClassRequest $request, School $school)
     {
-
-
         $class = SchoolClass::create([
             'school' => $school->id,
             ...$request->validated()
         ]);
+
+        // $calendarThemePlan = CalendarThemePlan::where('class', $class->number)->get();
+
+        // foreach ($calendarThemePlan as $item) {
+        //     $lesson = Lessons::create([
+        //         'number' => 0,
+        //         'type' => 'local',
+        //         'minutes' => 45,
+        //     ]);
+        // }
 
         return response()->json($class);
     }
 
     public function index(School $school)
     {
-
-
         $classes = SchoolClass::where('school', $school->id)->get();
 
         return response()->json($classes);
@@ -45,7 +53,6 @@ class ClassController extends Controller
 
     public function update(UpdateClassRequest $request, School $school, SchoolClass $schoolClass)
     {
-
         $school = School::create($request->validated());
 
         return response()->json($school);

@@ -30,4 +30,8 @@ class SchoolTeacher extends Model
     public function profile() {
         return $this->hasMany(ProfileTeacher::class, 'teacher', 'teacher');
     }
+
+    public function school() {
+        return $this->belongsTo(School::class, 'school', 'id');
+    }
 }

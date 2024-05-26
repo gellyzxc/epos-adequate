@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('address');
             $table->integer('mark_max')->default(10);
+            $table->integer('terms')->default(4);
             $table->json('data');
             $table->timestamps();
         });

@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('lessons', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignUuid('teacher')->constrained('school_teachers');
-            $table->foreignUuid('subject')->constrained('school_subjects');
-            $table->foreignUuid('class')->constrained('school_classes');
-            $table->string('day');
+            $table->id();
+            $table->foreignId('class_day_timetable_id')->constrained('class_day_timetables');
+            $table->integer('duration');
             $table->integer('number');
+            $table->string('cabinet')->nullable();
+            $table->foreignUuid('teacher_profile_id')->constrained('profile_teachers');
             $table->enum('type', ['local', 'distant', 'other']);
+            $table->timestamps();
         });
     }
 

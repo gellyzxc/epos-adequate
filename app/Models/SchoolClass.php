@@ -35,4 +35,8 @@ class SchoolClass extends Model
     public function pupils() {
         return $this->hasManyThrough(User::class, PupilUser::class, 'school_class', 'id', 'id', 'user');
     }
+
+    public function school() {
+        return $this->belongsTo(School::class, 'school', 'id');
+    }
 }

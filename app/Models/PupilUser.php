@@ -25,4 +25,12 @@ class PupilUser extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user', 'id');
     }
+
+    public function schoolClass() {
+        return $this->belongsTo(SchoolClass::class, 'school_class', 'id');
+    }
+
+    // public function school() {
+    //     return $this->hasOne(School::class, 'school', 'id');
+    // }
 }

@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('lessons', function (Blueprint $table) {
+        Schema::create('timetable', function (Blueprint $table) {
+            $table->id();
             $table->integer('week');
+            $table->integer('year');
+            $table->foreignUuid('class')->constrained('school_classes');
+            $table->timestamps();
         });
     }
 
@@ -21,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Schema::dropIfExists('calendars');
+        Schema::dropIfExists('timetable');
     }
 };

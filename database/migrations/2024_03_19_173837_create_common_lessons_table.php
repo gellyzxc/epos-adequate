@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('lessons', function (Blueprint $table) {
-            $table->integer('year');
+        Schema::create('common_lessons', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->integer('class');
+            // $table->string();
+            // $table->timestamps();
         });
     }
 
@@ -21,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('common_lessons');
     }
 };
