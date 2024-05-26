@@ -23,7 +23,7 @@ class LocalAdminController extends Controller
         $result = [];
 
         foreach ($school->teachers as $teacher) {
-            $result[] = $teacher->with('user', 'leader.myClass', 'profile.subjectInfo')->get();
+            $result[] = $teacher->with('user', 'leader.schoolClass', 'profile.subjectInfo')->get();
         }
 
         return response()->json($result);

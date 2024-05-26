@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
-    protected $primaryKey = 'id';
-    public $incrementing = false;
-    protected $keyType = 'string';
+    // protected $primaryKey = 'id';
+    // public $incrementing = false;
+    // protected $keyType = 'string';
 
     public $timestamps = false;
 

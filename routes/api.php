@@ -5,6 +5,7 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\LessonsController;
 use App\Http\Controllers\LocalAdminController;
 use App\Http\Controllers\MarkController;
+use App\Http\Controllers\MarksController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TimetableController;
@@ -71,7 +72,7 @@ Route::group(['prefix' => 'v1'], function () {
 
             Route::group(['prefix' => 'teacher'], function () {
                 Route::group(['prefix' => 'mark'], function () {
-                    Route::post('{schoolClass}/{lesson}/{pupil}', [MarkController::class, 'createMark']);
+                    Route::post('{schoolClass}/{lesson}/{pupil}', [MarksController::class, 'createMark']);
                 });
 
                 Route::get('token/renew', [TeacherController::class, 'newToken']);
@@ -99,6 +100,13 @@ Route::group(['prefix' => 'v1'], function () {
             });
 
             Route::group(['prefix' => 'local_admin'], function () {
+                Route::group(['prefix' => 'timetable'], function () {
+                    Route::get('/', [TimetableController::class, 'index']);
+                    Route::post('/{schoolClass}', [TimetableController::class, 'store']);
+                    Route::get('/{schoolClass}/{timetable}', [TimetableController::class, 'show']);
+                    Route::post('/{schoolClass}/{classDayTimetable}/', [LessonsController::class, 'store']);
+                });
+
                 Route::get('{school}/teachers', [LocalAdminController::class, 'getTeachers']);
                 Route::get('{school}/{teacher}', [LocalAdminController::class, 'addNewLocalAdmin']);
                 Route::post('{school}/teacher/{token}', [LocalAdminController::class, 'addNewTeacher']);
@@ -106,12 +114,7 @@ Route::group(['prefix' => 'v1'], function () {
                 // Route::get('{school}/{schoolClass}/pupils', []);
                 // Route::get('{school}/{schoolClass}/pupils/{pupil}', []);
 
-                Route::group(['prefix' => 'timetable'], function () {
-                    Route::post('/{schoolClass}', [TimetableController::class, 'store']);
-                    Route::get('/{timetable}', [TimetableController::class, 'show']);
-                    Route::post('/{schoolClass}/{classDayTimetable}/', [LessonsController::class, 'store']);
 
-                });
             });
         });
     });
